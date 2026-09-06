@@ -239,6 +239,12 @@ figcaption{font-family:var(--font-mono);font-size:var(--micro);letter-spacing:.0
   .notice-in{flex-wrap:wrap}
   .foot-in .end{margin-left:0}
 }
+@media (max-width:620px){
+  /* the masthead runs out of room before the wordmark should start wrapping */
+  .masthead-in{flex-wrap:wrap;gap:14px 0;padding-block:18px}
+  .wordmark{white-space:nowrap}
+  nav.top{margin-left:0;width:100%;gap:18px}
+}
 
 /* ===================== DEV MODE ===================== */
 body.dev [data-e]{outline:1px dashed color-mix(in oklab, var(--accent) 55%, transparent);outline-offset:3px;border-radius:2px}
