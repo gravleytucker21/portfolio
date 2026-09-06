@@ -3,6 +3,11 @@
 A single-file UX design and research portfolio. No build step, no dependencies —
 `index.html` is the entire site.
 
+**Live:** <https://gravleytucker21.github.io/portfolio/>
+
+Deployed by GitHub Pages from `main`. Pushing to `main` republishes; a build
+takes about a minute.
+
 ## Structure
 
 Home, three case studies, and an About page, routed client-side off the URL hash:
