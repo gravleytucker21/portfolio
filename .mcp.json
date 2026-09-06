@@ -1,8 +1,12 @@
 {
   "mcpServers": {
     "playwright": {
-      "command": "npx",
-      "args": ["-y", "@playwright/mcp@latest", "--browser", "chromium"]
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "C:\\Users\\tuckergravley\\AppData\\Roaming\\npm\\node_modules\\@playwright\\mcp\\cli.js",
+        "--browser",
+        "chromium"
+      ]
     }
   }
 }
