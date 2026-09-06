@@ -5,7 +5,7 @@
       "args": [
         "C:\\Users\\tuckergravley\\AppData\\Roaming\\npm\\node_modules\\@playwright\\mcp\\cli.js",
         "--browser",
-        "chromium",
+        "chrome",
         "--headless"
       ]
     }
