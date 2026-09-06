@@ -1,0 +1,1252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="UX design and research portfolio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><title>Field Notes Portfolio</title>
+<style id="sheet">
+:root{
+  color-scheme:light;
+  --paper:#F3F4F1;
+  --raised:#FBFBF9;
+  --ink:#15181A;
+  --ink-2:#585F5B;
+  --ink-3:#7E8681;
+  --rule:#D9DCD5;
+  --rule-strong:#BCC1B9;
+  --accent-base:#1E4D42;
+  --accent:var(--accent-base);
+  --accent-soft:#E2EAE5;
+  --accent-soft:color-mix(in oklab, var(--accent) 15%, var(--paper));
+  --mark:rgba(197,160,64,.32);
+  --focus:var(--accent);
+
+  --sev1-fg:#8C2F1E; --sev1-br:#C9836F; --sev1-bg:rgba(201,131,111,.10);
+  --sev2-fg:#7E5B0C; --sev2-br:#C3A254; --sev2-bg:rgba(195,162,84,.12);
+
+  /* ---- tokens the dev panel writes ---- */
+  --font-display:"Newsreader",Georgia,serif;
+  --font-body:"IBM Plex Sans",system-ui,sans-serif;
+  --font-mono:"IBM Plex Mono",Consolas,monospace;
+  --base:16.5px;
+  --lh:1.62;
+  --dscale:1;
+  --micro:11.5px;
+  --track:.09em;
+  --measure:62ch;
+  --maxw:1120px;
+  --rail-set:172px;
+  --gap-set:56px;
+  --pad-set:56px;
+  --secpad-set:70px;
+  --rowpad-set:32px;
+  --blockgap-set:40px;
+  --statmin:155px;
+  --radius:0px;
+
+  /* ---- derived, responsive ---- */
+  --rail:min(var(--rail-set),24vw);
+  --gap:min(var(--gap-set),7vw);
+  --pad:min(var(--pad-set),6vw);
+  --secpad:min(var(--secpad-set),11vw);
+  --rowpad:min(var(--rowpad-set),5vw);
+  --blockgap:min(var(--blockgap-set),7vw);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --paper:#101312; --raised:#171B19;
+    --ink:#E9ECE7; --ink-2:#A3ABA5; --ink-3:#7E8781;
+    --rule:#282D2A; --rule-strong:#3C433E;
+    --accent:color-mix(in oklab, var(--accent-base) 58%, #E9F4EF);
+    --accent-soft:color-mix(in oklab, var(--accent) 20%, var(--paper));
+    --mark:rgba(214,178,86,.24);
+    --sev1-fg:#E8A791; --sev1-br:#7A4437; --sev1-bg:rgba(232,167,145,.09);
+    --sev2-fg:#E0C27C; --sev2-br:#6E5A2C; --sev2-bg:rgba(224,194,124,.09);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#101312; --raised:#171B19;
+  --ink:#E9ECE7; --ink-2:#A3ABA5; --ink-3:#7E8781;
+  --rule:#282D2A; --rule-strong:#3C433E;
+  --accent:color-mix(in oklab, var(--accent-base) 58%, #E9F4EF);
+  --accent-soft:color-mix(in oklab, var(--accent) 20%, var(--paper));
+  --mark:rgba(214,178,86,.24);
+  --sev1-fg:#E8A791; --sev1-br:#7A4437; --sev1-bg:rgba(232,167,145,.09);
+  --sev2-fg:#E0C27C; --sev2-br:#6E5A2C; --sev2-bg:rgba(224,194,124,.09);
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:var(--base);
+  line-height:var(--lh);
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%}
+[hidden]{display:none !important}
+a{color:inherit}
+dl,dd{margin:0}
+:focus-visible{outline:2px solid var(--focus);outline-offset:3px}
+
+.wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--pad)}
+.spread{display:grid;grid-template-columns:var(--rail) minmax(0,1fr);gap:var(--gap)}
+
+.mono{font-family:var(--font-mono);font-size:var(--micro);letter-spacing:var(--track);text-transform:uppercase;color:var(--ink-3);line-height:1.5}
+.num{font-variant-numeric:tabular-nums}
+
+/* notice */
+.notice{border-bottom:1px solid var(--rule);background:var(--raised)}
+.notice-in{display:flex;align-items:baseline;gap:14px;padding-block:9px}
+.notice p{margin:0;font-family:var(--font-mono);font-size:var(--micro);line-height:1.7;color:var(--ink-2);letter-spacing:.02em}
+.notice b{color:var(--ink);font-weight:500}
+.notice kbd{font-family:var(--font-mono);border:1px solid var(--rule-strong);padding:1px 5px;border-radius:3px;font-size:.92em;color:var(--ink)}
+.notice button{margin-left:auto;flex:none;border:0;background:none;cursor:pointer;font-family:var(--font-mono);font-size:var(--micro);letter-spacing:var(--track);text-transform:uppercase;color:var(--ink-3);padding:2px 0}
+.notice button:hover{color:var(--ink)}
+
+/* masthead */
+.masthead{border-bottom:1px solid var(--rule)}
+.masthead-in{display:flex;align-items:center;gap:20px;padding-block:22px}
+.wordmark{font-family:var(--font-display);font-size:calc(var(--base) * 1.27);font-weight:500;letter-spacing:-.01em;text-decoration:none;line-height:1}
+.wordmark i{color:var(--ink-3);font-style:italic;font-weight:300}
+nav.top{margin-left:auto;display:flex;align-items:center;gap:22px}
+nav.top a{font-family:var(--font-mono);font-size:var(--micro);letter-spacing:var(--track);text-transform:uppercase;text-decoration:none;color:var(--ink-2);padding-block:4px;border-bottom:1px solid transparent}
+nav.top a:hover{color:var(--ink);border-bottom-color:var(--rule-strong)}
+nav.top a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tbtn{border:1px solid var(--rule-strong);background:none;color:var(--ink-2);cursor:pointer;font-family:var(--font-mono);font-size:calc(var(--micro) - .5px);letter-spacing:var(--track);text-transform:uppercase;padding:5px 9px;line-height:1;border-radius:var(--radius)}
+.tbtn:hover{color:var(--ink);border-color:var(--ink-3)}
+
+.skip{position:absolute;left:-9999px}
+.skip:focus{left:12px;top:12px;z-index:60;background:var(--raised);padding:8px 12px;border:1px solid var(--accent)}
+
+.view{display:none}
+.view.on{display:block}
+
+/* hero */
+.hero{padding-block:calc(var(--secpad) * 1.3) var(--secpad);border-bottom:1px solid var(--rule)}
+.hero h1{font-family:var(--font-display);font-weight:300;font-size:calc(var(--dscale) * clamp(34px,5.6vw,60px));line-height:1.08;letter-spacing:-.018em;margin:0 0 26px;text-wrap:balance;max-width:19ch}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero p{margin:0;color:var(--ink-2);font-size:calc(var(--base) * 1.09);max-width:54ch}
+.hero-rail{display:flex;flex-direction:column;gap:18px;padding-top:10px}
+.hero-rail div{display:flex;flex-direction:column;gap:3px}
+.hero-rail dd{font-size:calc(var(--base) * .82);color:var(--ink-2);line-height:1.45}
+
+/* sections */
+.sec{padding-block:var(--secpad);border-bottom:1px solid var(--rule)}
+.sec.last{border-bottom:0}
+.sechead{display:flex;flex-direction:column;gap:6px}
+.sechead h2{font-family:var(--font-display);font-weight:400;font-size:calc(var(--dscale) * clamp(22px,2.6vw,28px));letter-spacing:-.012em;margin:0;line-height:1.2}
+
+/* work list */
+.worklist{border-top:1px solid var(--rule-strong)}
+.workrow{display:grid;grid-template-columns:var(--rail) minmax(0,1fr) auto;gap:var(--gap);align-items:start;padding-block:var(--rowpad);border-bottom:1px solid var(--rule);text-decoration:none;position:relative}
+.workrow::before{content:"";position:absolute;left:0;top:-1px;height:1px;width:0;background:var(--accent);transition:width .42s cubic-bezier(.2,.7,.2,1)}
+.workrow:hover::before,.workrow:focus-visible::before{width:100%}
+.wr-meta{display:flex;flex-direction:column;gap:6px}
+.wr-title{font-family:var(--font-display);font-weight:400;font-size:calc(var(--dscale) * clamp(21px,2.5vw,27px));letter-spacing:-.012em;line-height:1.24;margin:0 0 10px;text-wrap:balance}
+.workrow:hover .wr-title{color:var(--accent)}
+.wr-sum{margin:0 0 14px;color:var(--ink-2);font-size:calc(var(--base) * .94);max-width:56ch}
+.methods{display:flex;flex-wrap:wrap;gap:6px}
+.method{font-family:var(--font-mono);font-size:calc(var(--micro) - .5px);letter-spacing:.05em;color:var(--ink-2);border:1px solid var(--rule-strong);padding:3px 7px;line-height:1.35;white-space:nowrap;border-radius:var(--radius)}
+.wr-go{font-family:var(--font-mono);font-size:var(--micro);letter-spacing:var(--track);text-transform:uppercase;color:var(--ink-3);padding-top:8px}
+.workrow:hover .wr-go{color:var(--accent)}
+
+/* prose */
+.prose h3{font-family:var(--font-mono);font-size:var(--micro);letter-spacing:calc(var(--track) + .02em);text-transform:uppercase;color:var(--ink-3);font-weight:500;margin:0 0 14px}
+.prose p{margin:0 0 18px;max-width:var(--measure)}
+.prose p:last-child{margin-bottom:0}
+.prose strong{font-weight:600}
+.mark{background:var(--mark);padding:.06em .18em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.stack{display:flex;flex-direction:column;gap:var(--blockgap)}
+
+/* case study */
+.casehead{padding-block:var(--secpad) calc(var(--secpad) * .6);border-bottom:1px solid var(--rule)}
+.casehead h1{font-family:var(--font-display);font-weight:300;font-size:calc(var(--dscale) * clamp(30px,4.6vw,48px));line-height:1.1;letter-spacing:-.018em;margin:14px 0 20px;text-wrap:balance;max-width:20ch}
+.deck{margin:0;font-size:calc(var(--base) * 1.13);color:var(--ink-2);max-width:52ch;font-family:var(--font-display);line-height:1.5}
+.caserail{position:sticky;top:24px;align-self:start;display:flex;flex-direction:column;gap:16px}
+.caserail div{display:flex;flex-direction:column;gap:3px}
+.caserail dd{font-size:calc(var(--base) * .79);color:var(--ink-2);line-height:1.5}
+
+/* findings */
+.findings{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.finding{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;padding-block:16px;border-bottom:1px solid var(--rule);align-items:start}
+.sev{font-family:var(--font-mono);font-size:calc(var(--micro) - 1px);letter-spacing:.06em;font-weight:500;padding:3px 6px;line-height:1.3;border:1px solid;white-space:nowrap;margin-top:3px;border-radius:var(--radius)}
+.sev1{color:var(--sev1-fg);border-color:var(--sev1-br);background:var(--sev1-bg)}
+.sev2{color:var(--sev2-fg);border-color:var(--sev2-br);background:var(--sev2-bg)}
+.sev3{color:var(--ink-2);border-color:var(--rule-strong)}
+.finding p{margin:0;font-size:calc(var(--base) * .94);line-height:1.55}
+.finding .ev{display:block;color:var(--ink-3);font-size:calc(var(--micro) + 1px);margin-top:5px;font-family:var(--font-mono);letter-spacing:.03em;line-height:1.5}
+
+/* quote */
+blockquote{margin:0;padding:0 0 0 20px;border-left:2px solid var(--accent);font-family:var(--font-display);font-size:calc(var(--dscale) * clamp(18px,2.1vw,22px));line-height:1.45;max-width:46ch}
+blockquote p{margin:0 0 12px;max-width:none}
+blockquote footer{font-family:var(--font-mono);font-size:var(--micro);letter-spacing:.06em;color:var(--ink-3);text-transform:uppercase;line-height:1.5}
+
+/* figures */
+figure{margin:0;border:1px solid var(--rule);background:var(--raised);padding:clamp(18px,2.6vw,26px);border-radius:var(--radius)}
+figure svg{display:block;width:100%;height:auto}
+figcaption{font-family:var(--font-mono);font-size:var(--micro);letter-spacing:.03em;color:var(--ink-3);line-height:1.65;margin-top:14px;padding-top:12px;border-top:1px solid var(--rule)}
+.ch-grid{stroke:var(--rule);stroke-width:1}
+.ch-axis{fill:var(--ink-3);font-family:var(--font-mono);font-size:10.5px;letter-spacing:.04em}
+.ch-label{fill:var(--ink-2);font-family:var(--font-mono);font-size:11px;letter-spacing:.06em}
+.ch-value{fill:var(--ink);font-family:var(--font-mono);font-size:14px;font-weight:500}
+.ch-a{fill:var(--rule-strong)}
+.ch-b{fill:var(--accent)}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(var(--statmin),1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:22px;border-radius:var(--radius);overflow:hidden}
+.stat{background:var(--paper);padding:16px 18px;display:flex;flex-direction:column;gap:5px}
+.stat b{font-family:var(--font-display);font-weight:400;font-size:calc(var(--dscale) * clamp(26px,3.4vw,34px));line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat span{font-family:var(--font-mono);font-size:calc(var(--micro) - .5px);letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);line-height:1.5}
+
+/* next */
+.nextlink{display:flex;flex-direction:column;gap:8px;text-decoration:none;padding-top:var(--rowpad);border-top:1px solid var(--rule-strong)}
+.nextlink strong{font-family:var(--font-display);font-weight:400;font-size:calc(var(--dscale) * clamp(20px,2.4vw,26px));letter-spacing:-.012em;line-height:1.25}
+.nextlink:hover strong{color:var(--accent)}
+
+/* contact */
+.contactlist{display:flex;flex-direction:column;border-top:1px solid var(--rule)}
+.contactlist a{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding-block:15px;border-bottom:1px solid var(--rule);text-decoration:none}
+.contactlist a:hover{color:var(--accent)}
+.contactlist em{font-style:normal;font-family:var(--font-mono);font-size:var(--micro);letter-spacing:var(--track);text-transform:uppercase;color:var(--ink-3)}
+.lede{margin:0 0 22px;color:var(--ink-2);max-width:var(--measure)}
+
+/* footer */
+.foot{border-top:1px solid var(--rule);padding-block:26px 44px;margin-top:var(--secpad)}
+.foot-in{display:flex;flex-wrap:wrap;gap:12px 28px;align-items:baseline}
+.foot-in p{margin:0}
+.foot-in .end{margin-left:auto;display:flex;gap:18px;align-items:baseline}
+.foot-in a{text-decoration:none}
+.foot-in a:hover{color:var(--ink)}
+.devlink{background:none;border:0;padding:0;cursor:pointer;font-family:var(--font-mono);font-size:var(--micro);letter-spacing:var(--track);text-transform:uppercase;color:var(--ink-3)}
+.devlink:hover{color:var(--accent)}
+
+@media (max-width:880px){
+  .spread,.workrow{grid-template-columns:minmax(0,1fr)}
+  .workrow{gap:14px}
+  .wr-go{display:none}
+  .wr-meta{flex-direction:row;flex-wrap:wrap;gap:6px 18px}
+  .hero-rail,.caserail{flex-direction:row;flex-wrap:wrap;gap:14px 30px;position:static;padding-top:0}
+  .hero-rail div,.caserail div{min-width:130px;flex:1 1 200px}
+  .notice-in{flex-wrap:wrap}
+  .foot-in .end{margin-left:0}
+}
+
+/* ===================== DEV MODE ===================== */
+body.dev [data-e]{outline:1px dashed color-mix(in oklab, var(--accent) 55%, transparent);outline-offset:3px;border-radius:2px}
+body.dev [data-e]:hover{outline-style:solid;background:color-mix(in oklab, var(--accent) 7%, transparent)}
+body.dev [data-e]:focus{outline:2px solid var(--accent);outline-offset:3px;background:color-mix(in oklab, var(--accent) 5%, transparent)}
+body.dev .workrow,body.dev .nextlink,body.dev .contactlist a{pointer-events:none}
+body.dev .workrow [data-e],body.dev .nextlink [data-e],body.dev .contactlist a [data-e]{pointer-events:auto}
+
+#dev{
+  position:fixed;top:0;right:0;bottom:0;width:336px;z-index:50;
+  background:var(--raised);border-left:1px solid var(--rule-strong);
+  display:flex;flex-direction:column;
+  font-family:var(--font-mono);font-size:12px;line-height:1.5;color:var(--ink);
+  box-shadow:-14px 0 40px -24px rgba(0,0,0,.5);
+}
+#dev header{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--rule)}
+#dev header h2{margin:0;font-family:var(--font-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:500}
+#dev header .x{margin-left:auto;background:none;border:0;color:var(--ink-3);cursor:pointer;font-family:inherit;font-size:15px;line-height:1;padding:4px}
+#dev header .x:hover{color:var(--ink)}
+.dev-body{overflow-y:auto;flex:1;padding:4px 16px 20px}
+.dev-tip{margin:12px 0 4px;color:var(--ink-3);font-size:11px;line-height:1.6;letter-spacing:.02em}
+.dev-group{margin-top:18px}
+.dev-group > h3{margin:0 0 10px;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:500;padding-bottom:7px;border-bottom:1px solid var(--rule)}
+.ctl{display:grid;grid-template-columns:1fr auto;gap:3px 10px;align-items:center;margin-bottom:11px}
+.ctl label{font-size:11px;color:var(--ink-2);letter-spacing:.03em}
+.ctl output{font-size:11px;color:var(--ink);font-variant-numeric:tabular-nums}
+.ctl input[type=range]{grid-column:1/-1;width:100%;accent-color:var(--accent);margin:0;height:18px}
+.ctl select,.ctl input[type=color]{grid-column:1/-1;width:100%;font-family:var(--font-mono);font-size:12px;padding:6px 7px;background:var(--paper);color:var(--ink);border:1px solid var(--rule-strong);border-radius:3px}
+.ctl input[type=color]{padding:2px;height:32px;cursor:pointer}
+.dev-foot{border-top:1px solid var(--rule);padding:12px 16px;display:flex;flex-direction:column;gap:8px;background:var(--raised)}
+.dev-row{display:flex;gap:8px}
+.dev-btn{flex:1;font-family:var(--font-mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;padding:9px 8px;border:1px solid var(--rule-strong);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:3px;line-height:1.2}
+.dev-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.dev-btn:disabled{opacity:.4;cursor:not-allowed}
+.dev-btn.primary{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.dev-btn.primary:hover:not(:disabled){filter:brightness(1.12);color:var(--paper)}
+.dev-btn.danger:hover:not(:disabled){border-color:var(--sev1-br);color:var(--sev1-fg)}
+.dev-status{font-size:10.5px;color:var(--ink-3);letter-spacing:.03em;min-height:1.4em;line-height:1.4}
+.dev-status.ok{color:var(--accent)}
+.dev-status.bad{color:var(--sev1-fg)}
+body.dev-open{padding-right:336px}
+@media (max-width:820px){
+  #dev{width:auto;left:0;top:auto;height:72vh;border-left:0;border-top:1px solid var(--rule-strong)}
+  body.dev-open{padding-right:0;padding-bottom:72vh}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+<div id="shell"></div>
+
+<script id="state" type="application/json">
+{
+  "title": "Field Notes Portfolio",
+  "settings": {
+    "fontDisplay": "Newsreader",
+    "fontBody": "IBM Plex Sans",
+    "fontMono": "IBM Plex Mono",
+    "base": 16.5,
+    "lh": 1.62,
+    "dscale": 1,
+    "micro": 11.5,
+    "track": 0.09,
+    "measure": 62,
+    "maxw": 1120,
+    "rail": 172,
+    "gap": 56,
+    "pad": 56,
+    "secpad": 70,
+    "rowpad": 32,
+    "blockgap": 40,
+    "statmin": 155,
+    "radius": 0,
+    "accent": "#1E4D42"
+  },
+  "site": {
+    "name": "Your Name",
+    "suffix": "— UX",
+    "email": "you@example.com",
+    "footerRole": "UX Design &amp; Research",
+    "copyright": "© 2026"
+  },
+  "home": {
+    "rail": [
+      {"label": "Based in", "value": "City, Country · Remote"},
+      {"label": "Practice", "value": "Product design, mixed-methods research"},
+      {"label": "Status", "value": "Open to senior roles, Q4 2026"}
+    ],
+    "headline": "I find out what people actually do, then ",
+    "headlineAccent": "design for that",
+    "headlineTail": ".",
+    "intro": "Seven years across consumer product, clinical software, and design systems. I run the research myself — interviews, diary studies, contextual inquiry — and stay on through shipping, because findings that never reach the interface aren't findings.",
+    "workHeading": "Selected work",
+    "workNote": "Three of eleven · 2024–2026",
+    "methodHeading": "How I work",
+    "methodNote": "Method",
+    "methodBlocks": [
+      {"h": "Research is not a phase", "p": "I don't hand a deck to a designer and leave. I run the sessions, do the analysis, then sit in the file making the screens — which keeps the finding and the fix attached to each other. When a design decision gets questioned six months later, I can name the participant it came from."},
+      {"h": "Evidence over opinion, shipped over perfect", "p": "Every recommendation I make is traceable to something observed. That said, a study that lands after the release is a document, not a decision — so I size the method to the question. Sometimes that's a twelve-participant moderated study; sometimes it's four hallway sessions on a Tuesday."},
+      {"h": "Accessibility is a research finding", "p": "I recruit for it rather than auditing for it afterwards. Screen reader users, low-vision users, and people working one-handed are in the participant pool from the first round, which tends to surface structural problems while they're still cheap to fix."}
+    ],
+    "contactHeading": "Get in touch",
+    "contactNote": "Currently interviewing",
+    "contactLede": "Happy to talk through any of these projects in more depth, including the parts that didn't work. A portfolio walkthrough runs about forty minutes.",
+    "links": [
+      {"text": "you@example.com", "label": "Email", "href": "mailto:you@example.com"},
+      {"text": "linkedin.com/in/yourname", "label": "LinkedIn", "href": "#/"},
+      {"text": "read.cv/yourname", "label": "Résumé", "href": "#/"}
+    ]
+  },
+  "projects": [
+    {
+      "id": "onboarding",
+      "year": "2026",
+      "domain": "Consumer",
+      "role": "Lead designer",
+      "title": "Cutting first-week churn on a scheduling app",
+      "summary": "Retention was leaking before anyone reached the product's actual value. A diary study showed the drop-off wasn't confusion — it was an empty calendar with nothing in it to schedule.",
+      "methods": ["14 interviews", "Diary study n=9", "Usability n=12", "SUS"],
+      "eyebrow": "Case study 01 · Consumer · 2026",
+      "deck": "Forty-one percent of new accounts never came back after day one. The team assumed an onboarding comprehension problem. It was an empty-state problem.",
+      "rail": [
+        {"label": "Role", "value": "Lead designer &amp; researcher"},
+        {"label": "Team", "value": "2 engineers, 1 PM, 1 data analyst"},
+        {"label": "Timeline", "value": "11 weeks, Jan–Mar 2026"},
+        {"label": "Methods", "value": "Semi-structured interviews (n=14), diary study (n=9, 10 days), moderated usability testing (n=12), SUS, funnel analysis"},
+        {"label": "Tools", "value": "Dovetail, Figma, Maze, Amplitude"}
+      ],
+      "sections": [
+        {"kind": "prose", "h": "Context", "paras": [
+          "A scheduling product for independent practitioners — therapists, tutors, trainers — had healthy top-of-funnel growth and a bleeding retention curve. <strong>41% of accounts created never opened the app again after day one.</strong> Growth had already rewritten the onboarding copy twice, on the theory that people didn't understand the product.",
+          "I was asked to “test the new onboarding flow.” I asked for two weeks first, to find out whether onboarding was the problem at all."
+        ]},
+        {"kind": "prose", "h": "Research", "paras": [
+          "Fourteen semi-structured interviews with people who had signed up in the previous thirty days — deliberately split between returners and non-returners, and recruited from the product database rather than a panel, so I was talking to people with real stakes in it.",
+          "Then a ten-day diary study with nine practitioners, prompted twice daily. Diaries mattered here because the failure was happening <em>between</em> sessions with the product, in a window no analytics event could see."
+        ]},
+        {"kind": "findings", "h": "What we found", "items": [
+          {"sev": 1, "text": "New users landed on an empty calendar with no clients imported, so the product's core value stayed invisible until they'd done unrelated setup work elsewhere.", "ev": "11 of 14 interviews · 8 of 9 diary participants"},
+          {"sev": 1, "text": "Client import sat under Settings, and nothing in the first-run experience referenced it. Six participants believed the feature didn't exist.", "ev": "Observed in 9 of 12 usability sessions"},
+          {"sev": 2, "text": "The onboarding tour explained features in product order, not in the order a practitioner needs them on their first working day.", "ev": "7 of 14 interviews"},
+          {"sev": 3, "text": "Timezone selection defaulted to browser locale without confirmation, producing a small but demoralising class of first-week booking errors.", "ev": "3 of 14 interviews · 4 support tickets sampled"}
+        ]},
+        {"kind": "quote", "h": "The moment it turned",
+          "pre": "“I kept opening it and there was just… nothing there. ",
+          "mark": "I didn't need instructions, I needed my Tuesday in it.",
+          "post": " So I went back to the spreadsheet.”",
+          "by": "P07 · Diary study, day 4 · Music tutor, 6 yrs freelance"},
+        {"kind": "prose", "h": "Design response", "paras": [
+          "We stopped explaining and started populating. Three changes, shipped in sequence so each one could be measured on its own:",
+          "<strong>1 — Import first.</strong> The first screen after signup became a client import with four routes in: Google Contacts, CSV, calendar sync, manual. No tour until there was something to tour.",
+          "<strong>2 — A seeded week.</strong> Where import wasn't possible, the calendar rendered a realistic example week, clearly marked as sample data and removable in one action, so the empty state was never truly empty.",
+          "<strong>3 — Timezone confirmation.</strong> An explicit confirm step with the detected zone pre-filled, phrased as a question rather than a setting."
+        ]},
+        {"kind": "figure", "h": "Outcome",
+          "chart": {"type": "bars", "max": 100, "ticks": ["0%", "50%", "100%"],
+            "items": [{"label": "BEFORE", "value": 58, "display": "58%", "tone": "a"}, {"label": "AFTER", "value": 91, "display": "91%", "tone": "b"}]},
+          "alt": "Task success rate for first-week setup: 58 percent before, 91 percent after.",
+          "caption": "Task success on “add your first three clients and book a session” — moderated testing, n=12 before and n=12 after. Success defined as completion without moderator assistance.",
+          "stats": [
+            {"v": "91%", "label": "Task success, from 58%"},
+            {"v": "+23%", "label": "Day-7 activation"},
+            {"v": "78.5", "label": "SUS, from 61.0"},
+            {"v": "−34%", "label": "Setup support tickets"}
+          ]},
+        {"kind": "prose", "h": "What I'd do differently", "paras": [
+          "I ran the diary study after the interviews, which cost two weeks before we knew the real shape of the problem. The signal was already faintly there in interview three — the phrase “nothing there” came up early and I coded it as frustration rather than as a literal description of the interface. Running a short diary in parallel with interviews would have got us to the same finding a fortnight sooner.",
+          "I'd also push harder on the seeded week. Two engineers were uneasy about shipping sample data into a live calendar and we scoped it down to a single day. The full-week version tested better, and I didn't make the case well enough."
+        ]}
+      ]
+    },
+    {
+      "id": "medrec",
+      "year": "2025",
+      "domain": "Clinical",
+      "role": "Sole researcher",
+      "title": "Medication reconciliation for night-shift nurses",
+      "summary": "Twenty-two hours of contextual inquiry across six inpatient units. The interface assumed an uninterrupted sitting; the real task was done standing, in ninety-second fragments, at 3 a.m.",
+      "methods": ["Contextual inquiry", "Cognitive walkthrough", "WCAG 2.2 AA audit"],
+      "eyebrow": "Case study 02 · Clinical · 2025",
+      "deck": "The software was designed for a task performed sitting down, in one pass. Nobody had ever watched it being done at 3 a.m.",
+      "rail": [
+        {"label": "Role", "value": "Sole researcher, embedded"},
+        {"label": "Team", "value": "4 engineers, 1 clinical safety officer, 1 PM"},
+        {"label": "Timeline", "value": "16 weeks, May–Sep 2025"},
+        {"label": "Methods", "value": "Contextual inquiry (6 units, 22 hrs, incl. 3 night shifts), cognitive walkthrough, WCAG 2.2 AA audit, safety-case review"},
+        {"label": "Constraints", "value": "Ethics approval, no patient data off-site, observation only during non-critical tasks"}
+      ],
+      "sections": [
+        {"kind": "prose", "h": "Context", "paras": [
+          "Medication reconciliation — checking a patient's incoming medication list against what's actually prescribed on the ward — is a high-stakes, high-interruption task. The vendor's screen had been designed from the clinical specification, which is precise about <em>what</em> must be checked and silent about the conditions it gets checked in.",
+          "Median time-on-task was 7 minutes 40 seconds. Nurses were routinely printing the list and re-entering it later, which is the behaviour you see when software is losing a fight with reality."
+        ]},
+        {"kind": "prose", "h": "Research", "paras": [
+          "Twenty-two hours of contextual inquiry across six inpatient units, including three night shifts. I shadowed, asked questions in the gaps, and — critically — timed the interruptions. The median uninterrupted working window on a night shift was <strong>ninety-four seconds</strong>. The screen needed roughly four minutes of continuous attention, with no way to save partial work.",
+          "Alongside that, a cognitive walkthrough with two clinical pharmacists and a full WCAG 2.2 AA audit — relevant not as compliance paperwork but because ward lighting at night is dim and a meaningful share of the staff were reading at arm's length."
+        ]},
+        {"kind": "findings", "h": "What we found", "items": [
+          {"sev": 1, "text": "No partial save. Any interruption longer than the session timeout discarded the reconciliation in progress, so nurses batched the work onto paper first.", "ev": "Observed 17 times across 22 hours"},
+          {"sev": 1, "text": "Discrepancies were flagged by row colour alone — failing SC 1.4.1, and unreadable under night-mode ward lighting.", "ev": "WCAG audit · confirmed with 4 nurses"},
+          {"sev": 2, "text": "Dose used a free-text field, so “5mg”, “5 mg” and “5.0mg” stored as distinct values and defeated the automatic comparison.", "ev": "Cognitive walkthrough · 1,400 records sampled"},
+          {"sev": 2, "text": "Touch targets on the confirm control measured 28×28 px, below the 44×44 minimum, and the task is frequently one-handed while holding a chart.", "ev": "WCAG SC 2.5.8 · observed 9 times"}
+        ]},
+        {"kind": "quote", "h": "The moment it turned",
+          "pre": "“I print it because ",
+          "mark": "the computer forgets and I don't.",
+          "post": " If I get called away halfway through, at least the paper's still in my pocket.”",
+          "by": "N04 · Contextual inquiry, night shift · Ward sister, 19 yrs"},
+        {"kind": "prose", "h": "Design response", "paras": [
+          "<strong>1 — Resumable by default.</strong> Every field commits on blur to a draft reconciliation tied to the patient, not the session. Walking away became a supported state rather than a failure.",
+          "<strong>2 — Discrepancies shown three ways.</strong> A severity stripe, an icon, and text, so colour reinforces meaning instead of carrying it alone.",
+          "<strong>3 — Structured dose entry.</strong> Numeric field plus a unit selector, with the old free-text values migrated by a one-off normalisation pass.",
+          "<strong>4 — Targets rebuilt to 48 px</strong> on the confirm and flag controls, with the whole row made tappable."
+        ]},
+        {"kind": "figure", "h": "Outcome",
+          "chart": {"type": "hbars", "max": 480, "ticks": ["0:00", "4:00", "8:00"],
+            "items": [{"label": "BEFORE", "value": 460, "display": "7:40", "tone": "a"}, {"label": "AFTER", "value": 245, "display": "4:05", "tone": "b"}]},
+          "alt": "Median time on task fell from 7 minutes 40 seconds to 4 minutes 5 seconds.",
+          "caption": "Median time-on-task for a complete reconciliation, from server logs across 1,240 reconciliations in the eight weeks before and after release. Night-shift medians tracked the overall figure to within nine seconds.",
+          "stats": [
+            {"v": "4:05", "label": "Median time, from 7:40"},
+            {"v": "−47%", "label": "Abandoned reconciliations"},
+            {"v": "0", "label": "Outstanding AA failures"},
+            {"v": "6 → 31", "label": "Units rolled out"}
+          ]},
+        {"kind": "prose", "h": "What I'd do differently", "paras": [
+          "I spent the first four weeks on day shifts because they were easier to schedule, and almost every finding that mattered came from the three night shifts at the end. If a task changes shape under load, you have to observe it under load. I knew that, and I still let calendar convenience set the sampling.",
+          "I'd also bring the clinical safety officer in earlier. Involving them at week nine meant re-opening two decisions that a fifteen-minute conversation in week two would have settled."
+        ]}
+      ]
+    },
+    {
+      "id": "designsystem",
+      "year": "2024",
+      "domain": "Platform",
+      "role": "Design systems",
+      "title": "A design system forty people would actually adopt",
+      "summary": "The audit found 312 button instances across nine variants. The harder problem wasn't the components — it was that nobody could tell which version was current, so everyone forked.",
+      "methods": ["Component audit", "11 stakeholder interviews", "Adoption tracking"],
+      "eyebrow": "Case study 03 · Platform · 2024",
+      "deck": "The org had built a component library twice already. Both times it was technically complete and functionally ignored.",
+      "rail": [
+        {"label": "Role", "value": "Design systems lead"},
+        {"label": "Team", "value": "2 designers, 3 part-time engineers, serving a 40-person product org"},
+        {"label": "Timeline", "value": "4 quarters, 2024"},
+        {"label": "Methods", "value": "Component audit (312 instances), stakeholder interviews (n=11), adoption instrumentation, quarterly pulse survey"},
+        {"label": "Tools", "value": "Figma, Storybook, Style Dictionary"}
+      ],
+      "sections": [
+        {"kind": "prose", "h": "Context", "paras": [
+          "Two previous attempts at a shared library had shipped and stalled. The received wisdom was that engineers “wouldn't use it.” Before rebuilding anything, I audited what was actually in production: <strong>312 button instances across nine visual variants</strong>, four of which differed only in a 2 px corner radius."
+        ]},
+        {"kind": "prose", "h": "Research", "paras": [
+          "Eleven interviews spanning designers, front-end engineers, and two product managers — the last group included because they set the deadlines that made forking rational.",
+          "The finding was not resistance. Every single person wanted the system. What they couldn't do was <strong>tell which version was current</strong>. The Figma library, the Storybook instance, and the production CSS disagreed, and there was no cheap way to find out which one was right. Forking was the fastest path to a correct button."
+        ]},
+        {"kind": "findings", "h": "What we found", "items": [
+          {"sev": 1, "text": "No single source of truth. Three artefacts claimed authority and none of them cited the others.", "ev": "11 of 11 interviews"},
+          {"sev": 2, "text": "Contribution required a design review with a two-week median turnaround, so under deadline pressure forking was the rational choice.", "ev": "8 of 11 interviews · 14 pull requests sampled"},
+          {"sev": 2, "text": "Component names in Figma didn't match the names in code, so handoff conversations spent their time on translation rather than on the design.", "ev": "Audit · confirmed in 6 interviews"},
+          {"sev": 3, "text": "No changelog anyone read. Updates were announced in a Slack channel containing 12 of 40 people.", "ev": "Channel membership audit"}
+        ]},
+        {"kind": "quote", "h": "The moment it turned",
+          "pre": "“I'm not avoiding the library. ",
+          "mark": "I genuinely can't tell if the library is right.",
+          "post": " Copying the button from the page next door is at least a button that shipped.”",
+          "by": "E03 · Stakeholder interview · Senior front-end engineer"},
+        {"kind": "prose", "h": "Design response", "paras": [
+          "<strong>1 — Tokens as the source of truth.</strong> One JSON token file generating both the Figma variables and the CSS custom properties, so the two artefacts could no longer disagree.",
+          "<strong>2 — Names matched exactly.</strong> A one-week renaming pass so a Figma layer and a code component share a string. Unglamorous, and the highest-leverage thing we did all year.",
+          "<strong>3 — Contribution in 48 hours.</strong> A template pull request with an async review SLA, replacing the standing design-review meeting.",
+          "<strong>4 — Adoption made visible.</strong> A dashboard showing per-surface token coverage, so teams could see where they stood without anyone chasing them."
+        ]},
+        {"kind": "figure", "h": "Outcome",
+          "chart": {"type": "line", "max": 100, "ticks": ["0%", "50%", "100%"], "endDisplay": "78%",
+            "items": [{"label": "Q1", "value": 0}, {"label": "Q2", "value": 24}, {"label": "Q3", "value": 51}, {"label": "Q4", "value": 78}]},
+          "alt": "Token adoption across production surfaces rose from 0 percent in Q1 to 78 percent in Q4.",
+          "caption": "Share of production surfaces rendering from design tokens, measured quarterly by static analysis of the front-end repositories. The remaining 22% sits in two legacy admin tools scheduled for retirement.",
+          "stats": [
+            {"v": "78%", "label": "Token adoption, from 0%"},
+            {"v": "9 → 2", "label": "Button variants in production"},
+            {"v": "41 hrs", "label": "Contribution turnaround, from 2 wks"},
+            {"v": "34/40", "label": "Reading the changelog"}
+          ]},
+        {"kind": "prose", "h": "What I'd do differently", "paras": [
+          "I treated the audit as a warm-up and the interviews as the real research. In fact the audit <em>was</em> the finding — nine variants of one component is a diagnosis — and showing that chart in week one instead of week five would have bought the work its budget far earlier.",
+          "The adoption dashboard also needed a guardrail I didn't build. Two teams started optimising the number rather than the interface, which is exactly what a visible metric does if you let it stand on its own."
+        ]}
+      ]
+    }
+  ],
+  "about": {
+    "eyebrow": "About",
+    "title": "I came to design through anthropology, and it shows.",
+    "deck": "Which mostly means I'd rather spend a day in the room where the work happens than a week in a workshop about it.",
+    "rail": [
+      {"label": "Now", "value": "Senior Product Designer, [Company]"},
+      {"label": "Before", "value": "[Agency], [Startup], [Public sector team]"},
+      {"label": "Education", "value": "MSc Human–Computer Interaction · BA Anthropology"},
+      {"label": "Speaking", "value": "UXR Conf 2025 · local meetup, monthly"},
+      {"label": "Contact", "value": "you@example.com"}
+    ],
+    "blocks": [
+      {"h": "The short version", "paras": [
+        "Seven years designing and researching software, currently senior at [Company]. Before that, agency work across public sector and health, which is where I learned that the interesting constraint is almost never the one in the brief.",
+        "I'm at my best on problems where nobody's quite sure what the question is yet — the ones that arrive as “users are confused” and turn out to be about something structural three layers down."
+      ]},
+      {"h": "What I'm looking for", "paras": [
+        "A senior or staff role on a team that ships. I want research close enough to the work that findings change something the same quarter, and I want to keep my hands in the design file rather than moving fully into a pure research function.",
+        "Domains I'm drawn to: health, civic technology, tools for professionals — anywhere the person is doing something consequential and the software is currently in the way."
+      ]},
+      {"h": "Outside the file", "paras": [
+        "I keep a notebook of interfaces in the physical world that quietly work: ticket machines, hospital signage, the layout of a well-run kitchen. Most of what I know about designing for interruption I learned from watching people cook."
+      ]}
+    ]
+  }
+}
+</script>
+
+<script id="src">
+(function(){
+"use strict";
+
+/* ---------- captured source (for republishing) ---------- */
+var CSS_SRC = document.getElementById('sheet').textContent;
+var APP_SRC = document.getElementById('src').textContent;
+var HEAD_TITLE = document.title;
+
+/* ---------- state ---------- */
+var DEFAULTS = JSON.parse(document.getElementById('state').textContent);
+var S = JSON.parse(JSON.stringify(DEFAULTS));
+var DRAFT_KEY = 'fnp.draft.v1';
+
+try{
+  var draft = localStorage.getItem(DRAFT_KEY);
+  if(draft) S = JSON.parse(draft);
+}catch(e){}
+
+function saveDraft(){
+  try{ localStorage.setItem(DRAFT_KEY, JSON.stringify(S)); }catch(e){}
+}
+
+/* ---------- fonts ---------- */
+var FONTS = {
+  display: {
+    'Newsreader':'Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500',
+    'Fraunces':'Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600',
+    'Playfair Display':'Playfair+Display:ital,wght@0,400..700;1,400..600',
+    'Libre Baskerville':'Libre+Baskerville:ital,wght@0,400;0,700;1,400',
+    'Lora':'Lora:ital,wght@0,400..600;1,400..600',
+    'Instrument Serif':'Instrument+Serif:ital@0;1',
+    'Spectral':'Spectral:ital,wght@0,300;0,400;0,500;1,300;1,400',
+    'EB Garamond':'EB+Garamond:ital,wght@0,400..600;1,400..500',
+    'Bodoni Moda':'Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..500',
+    'Syne':'Syne:wght@400..800',
+    'Archivo':'Archivo:ital,wght@0,300..700;1,300..600'
+  },
+  body: {
+    'IBM Plex Sans':'IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400',
+    'Inter':'Inter:wght@300..600',
+    'Public Sans':'Public+Sans:ital,wght@0,300..600;1,400',
+    'Work Sans':'Work+Sans:ital,wght@0,300..600;1,400',
+    'Archivo':'Archivo:ital,wght@0,300..700;1,300..600',
+    'Karla':'Karla:ital,wght@0,300..700;1,400',
+    'DM Sans':'DM+Sans:ital,opsz,wght@0,9..40,300..600;1,9..40,400',
+    'Manrope':'Manrope:wght@300..700',
+    'Figtree':'Figtree:ital,wght@0,300..600;1,400',
+    'Source Serif 4':'Source+Serif+4:ital,opsz,wght@0,8..60,300..600;1,8..60,400'
+  },
+  mono: {
+    'IBM Plex Mono':'IBM+Plex+Mono:wght@400;500',
+    'JetBrains Mono':'JetBrains+Mono:wght@400;500',
+    'Space Mono':'Space+Mono:wght@400;700',
+    'Roboto Mono':'Roboto+Mono:wght@400;500',
+    'Source Code Pro':'Source+Code+Pro:wght@400;500',
+    'DM Mono':'DM+Mono:wght@400;500'
+  }
+};
+var STACK = {
+  display:', Georgia, "Times New Roman", serif',
+  body:', system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif',
+  mono:', "SFMono-Regular", Consolas, monospace'
+};
+
+function fontHref(st){
+  var fams = [];
+  if(FONTS.display[st.fontDisplay]) fams.push(FONTS.display[st.fontDisplay]);
+  if(FONTS.body[st.fontBody]) fams.push(FONTS.body[st.fontBody]);
+  if(FONTS.mono[st.fontMono]) fams.push(FONTS.mono[st.fontMono]);
+  return 'https://fonts.googleapis.com/css2?family=' + fams.join('&family=') + '&display=swap';
+}
+function applyFonts(){
+  var link = document.getElementById('fontlink');
+  if(!link){
+    link = document.createElement('link');
+    link.id = 'fontlink';
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+  }
+  var href = fontHref(S.settings);
+  if(link.getAttribute('href') !== href) link.setAttribute('href', href);
+}
+
+/* ---------- settings -> CSS custom properties ---------- */
+var VARS = [
+  ['base','--base','px'], ['lh','--lh',''], ['dscale','--dscale',''],
+  ['micro','--micro','px'], ['track','--track','em'],
+  ['measure','--measure','ch'], ['maxw','--maxw','px'],
+  ['rail','--rail-set','px'], ['gap','--gap-set','px'], ['pad','--pad-set','px'],
+  ['secpad','--secpad-set','px'], ['rowpad','--rowpad-set','px'],
+  ['blockgap','--blockgap-set','px'], ['statmin','--statmin','px'],
+  ['radius','--radius','px'], ['accent','--accent-base','']
+];
+function q(name){ return '"' + name + '"'; }
+function applySettings(){
+  var st = S.settings, r = document.documentElement.style;
+  VARS.forEach(function(v){ r.setProperty(v[1], st[v[0]] + v[2]); });
+  r.setProperty('--font-display', q(st.fontDisplay) + STACK.display);
+  r.setProperty('--font-body', q(st.fontBody) + STACK.body);
+  r.setProperty('--font-mono', q(st.fontMono) + STACK.mono);
+  applyFonts();
+}
+
+/* ---------- helpers ---------- */
+function esc(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function get(path){
+  var parts = path.split('.'), o = S;
+  for(var i=0;i<parts.length;i++) o = o[parts[i]];
+  return o;
+}
+function set(path, val){
+  var parts = path.split('.'), o = S;
+  for(var i=0;i<parts.length-1;i++) o = o[parts[i]];
+  o[parts[parts.length-1]] = val;
+}
+/* editable node: binds innerHTML to a state path */
+function ed(path, tag, cls, extra){
+  var t = tag || 'span';
+  return '<' + t + ' data-e="' + esc(path) + '"' +
+    (cls ? ' class="' + cls + '"' : '') +
+    (extra ? ' ' + extra : '') + '>' + get(path) + '</' + t + '>';
+}
+
+/* ---------- charts ---------- */
+function chart(c, alt){
+  var i, s = '';
+  var open = function(vb){ return '<svg viewBox="0 0 420 ' + vb + '" role="img" aria-label="' + esc(alt) + '">'; };
+
+  if(c.type === 'bars'){
+    s += open(190);
+    [150.5, 85.5, 20.5].forEach(function(y){ s += '<line class="ch-grid" x1="70" y1="' + y + '" x2="400" y2="' + y + '"></line>'; });
+    [[154, c.ticks[0]], [89, c.ticks[1]], [24, c.ticks[2]]].forEach(function(t){
+      s += '<text class="ch-axis" x="60" y="' + t[0] + '" text-anchor="end">' + esc(t[1]) + '</text>';
+    });
+    var n = c.items.length, slot = 330 / n, bw = Math.min(76, slot * 0.55);
+    for(i=0;i<n;i++){
+      var it = c.items[i], h = (it.value / c.max) * 130, cx = 70 + slot * (i + 0.5);
+      s += '<rect class="ch-' + (it.tone || 'b') + '" x="' + (cx - bw/2).toFixed(1) + '" y="' + (150 - h).toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + h.toFixed(1) + '"></rect>';
+      s += '<text class="ch-value" x="' + cx.toFixed(1) + '" y="' + (150 - h - 9).toFixed(1) + '" text-anchor="middle">' + esc(it.display) + '</text>';
+      s += '<text class="ch-label" x="' + cx.toFixed(1) + '" y="170" text-anchor="middle">' + esc(it.label) + '</text>';
+    }
+    return s + '</svg>';
+  }
+
+  if(c.type === 'hbars'){
+    var rows = c.items.length, base = 34, step = 50, bot = base + rows * step - 6;
+    s += open(bot + 40);
+    s += '<line class="ch-grid" x1="120.5" y1="18" x2="120.5" y2="' + (bot + 0.5) + '"></line>';
+    for(i=0;i<rows;i++){
+      var r = c.items[i], y = base + i * step, w = (r.value / c.max) * 287;
+      s += '<text class="ch-label" x="110" y="' + (y + 18) + '" text-anchor="end">' + esc(r.label) + '</text>';
+      s += '<rect class="ch-' + (r.tone || 'b') + '" x="121" y="' + y + '" width="' + w.toFixed(1) + '" height="26"></rect>';
+      s += '<text class="ch-value" x="133" y="' + (y + 18) + '">' + esc(r.display) + '</text>';
+    }
+    s += '<line class="ch-grid" x1="120.5" y1="' + (bot + 0.5) + '" x2="408" y2="' + (bot + 0.5) + '"></line>';
+    s += '<text class="ch-axis" x="121" y="' + (bot + 17) + '">' + esc(c.ticks[0]) + '</text>';
+    s += '<text class="ch-axis" x="264" y="' + (bot + 17) + '" text-anchor="middle">' + esc(c.ticks[1]) + '</text>';
+    s += '<text class="ch-axis" x="408" y="' + (bot + 17) + '" text-anchor="end">' + esc(c.ticks[2]) + '</text>';
+    return s + '</svg>';
+  }
+
+  /* line */
+  s += open(190);
+  [150.5, 85.5, 20.5].forEach(function(y){ s += '<line class="ch-grid" x1="70" y1="' + y + '" x2="400" y2="' + y + '"></line>'; });
+  [[154, c.ticks[0]], [89, c.ticks[1]], [24, c.ticks[2]]].forEach(function(t){
+    s += '<text class="ch-axis" x="60" y="' + t[0] + '" text-anchor="end">' + esc(t[1]) + '</text>';
+  });
+  var pts = c.items.map(function(p, idx){
+    var x = 70 + (310 / (c.items.length - 1)) * idx;
+    var y = 150 - (p.value / c.max) * 130;
+    return [x, y, p.label];
+  });
+  var d = pts.map(function(p, idx){ return (idx ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join(' ');
+  s += '<path d="' + d + ' L' + pts[pts.length-1][0].toFixed(1) + ' 150 L' + pts[0][0].toFixed(1) + ' 150 Z" fill="var(--accent-soft)"></path>';
+  s += '<path d="' + d + '" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"></path>';
+  pts.forEach(function(p, idx){
+    var last = idx === pts.length - 1;
+    s += '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="' + (last ? 5 : 3) + '" fill="var(--accent)"></circle>';
+    s += '<text class="ch-label" x="' + p[0].toFixed(1) + '" y="172" text-anchor="middle">' + esc(p[2]) + '</text>';
+  });
+  if(c.endDisplay){
+    s += '<text class="ch-value" x="' + pts[pts.length-1][0].toFixed(1) + '" y="' + (pts[pts.length-1][1] - 13).toFixed(1) + '" text-anchor="end">' + esc(c.endDisplay) + '</text>';
+  }
+  return s + '</svg>';
+}
+
+/* ---------- render ---------- */
+function railHTML(path, cls){
+  var arr = get(path), out = '<dl class="' + cls + '">';
+  for(var i=0;i<arr.length;i++){
+    out += '<div><dt class="mono">' + ed(path + '.' + i + '.label') + '</dt>' +
+           '<dd>' + ed(path + '.' + i + '.value') + '</dd></div>';
+  }
+  return out + '</dl>';
+}
+
+function sectionHTML(p, si){
+  var sec = S.projects[p].sections[si];
+  var base = 'projects.' + p + '.sections.' + si;
+  var out = '<div><h3>' + ed(base + '.h') + '</h3>';
+
+  if(sec.kind === 'prose'){
+    for(var i=0;i<sec.paras.length;i++) out += ed(base + '.paras.' + i, 'p');
+    return out + '</div>';
+  }
+  if(sec.kind === 'findings'){
+    out += '<ul class="findings">';
+    for(var j=0;j<sec.items.length;j++){
+      var f = sec.items[j];
+      out += '<li class="finding"><span class="sev sev' + f.sev + '">S' + f.sev + '</span>' +
+             '<p>' + ed(base + '.items.' + j + '.text') +
+             ed(base + '.items.' + j + '.ev', 'span', 'ev') + '</p></li>';
+    }
+    return out + '</ul></div>';
+  }
+  if(sec.kind === 'quote'){
+    return out + '<blockquote><p>' + ed(base + '.pre') +
+      ed(base + '.mark', 'span', 'mark') + ed(base + '.post') +
+      '</p><footer>' + ed(base + '.by') + '</footer></blockquote></div>';
+  }
+  /* figure */
+  out += '<figure>' + chart(sec.chart, sec.alt) +
+         '<figcaption>' + ed(base + '.caption') + '</figcaption></figure>';
+  out += '<div class="stats">';
+  for(var k=0;k<sec.stats.length;k++){
+    out += '<div class="stat"><b>' + ed(base + '.stats.' + k + '.v') + '</b>' +
+           '<span>' + ed(base + '.stats.' + k + '.label') + '</span></div>';
+  }
+  return out + '</div></div>';
+}
+
+function projectView(p){
+  var pr = S.projects[p], next = S.projects[(p + 1) % S.projects.length];
+  var out = '<section class="view" data-view="/p/' + esc(pr.id) + '">';
+  out += '<div class="casehead"><div class="wrap spread"><div></div><div>' +
+         '<p class="mono num">' + ed('projects.' + p + '.eyebrow') + '</p>' +
+         '<h1>' + ed('projects.' + p + '.title') + '</h1>' +
+         '<p class="deck">' + ed('projects.' + p + '.deck') + '</p>' +
+         '</div></div></div>';
+  out += '<div class="wrap sec last"><div class="spread">' + railHTML('projects.' + p + '.rail', 'caserail') + '<div class="prose stack">';
+  for(var i=0;i<pr.sections.length;i++) out += sectionHTML(p, i);
+  out += '<a class="nextlink" href="#/p/' + esc(next.id) + '"><span class="mono">' +
+         (S.projects.length > 1 ? 'Next case study' : 'Back to the top') + '</span>' +
+         '<strong>' + next.title + ' →</strong></a>';
+  return out + '</div></div></div></section>';
+}
+
+function homeView(){
+  var h = S.home;
+  var out = '<section class="view on" data-view="/">';
+  out += '<div class="hero"><div class="wrap spread">' + railHTML('home.rail', 'hero-rail') +
+         '<div><h1>' + ed('home.headline') + '<em data-e="home.headlineAccent">' + h.headlineAccent + '</em>' + ed('home.headlineTail') + '</h1>' +
+         ed('home.intro', 'p') + '</div></div></div>';
+
+  out += '<div class="wrap sec"><div class="spread"><div class="sechead"><h2>' + ed('home.workHeading') + '</h2>' +
+         '<p class="mono num">' + ed('home.workNote') + '</p></div><div class="worklist">';
+  for(var i=0;i<S.projects.length;i++){
+    var pr = S.projects[i], b = 'projects.' + i;
+    out += '<a class="workrow" href="#/p/' + esc(pr.id) + '">' +
+      '<div class="wr-meta">' + ed(b + '.year', 'span', 'mono num') + ed(b + '.domain', 'span', 'mono') + ed(b + '.role', 'span', 'mono') + '</div>' +
+      '<div><h3 class="wr-title" data-e="' + b + '.title">' + pr.title + '</h3>' +
+      ed(b + '.summary', 'p', 'wr-sum') + '<div class="methods">';
+    for(var m=0;m<pr.methods.length;m++) out += ed(b + '.methods.' + m, 'span', 'method');
+    out += '</div></div><div class="wr-go">Read →</div></a>';
+  }
+  out += '</div></div></div>';
+
+  out += '<div class="wrap sec"><div class="spread"><div class="sechead"><h2>' + ed('home.methodHeading') + '</h2>' +
+         '<p class="mono">' + ed('home.methodNote') + '</p></div><div class="prose stack">';
+  for(var j=0;j<h.methodBlocks.length;j++){
+    out += '<div><h3>' + ed('home.methodBlocks.' + j + '.h') + '</h3>' + ed('home.methodBlocks.' + j + '.p', 'p') + '</div>';
+  }
+  out += '</div></div></div>';
+
+  out += '<div class="wrap sec last"><div class="spread"><div class="sechead"><h2>' + ed('home.contactHeading') + '</h2>' +
+         '<p class="mono">' + ed('home.contactNote') + '</p></div><div>' +
+         ed('home.contactLede', 'p', 'lede') + '<div class="contactlist">';
+  for(var k=0;k<h.links.length;k++){
+    out += '<a href="' + esc(h.links[k].href) + '">' + ed('home.links.' + k + '.text', 'span') +
+           ed('home.links.' + k + '.label', 'em') + '</a>';
+  }
+  return out + '</div></div></div></div></section>';
+}
+
+function aboutView(){
+  var a = S.about;
+  var out = '<section class="view" data-view="/about">';
+  out += '<div class="casehead"><div class="wrap spread"><div></div><div>' +
+         '<p class="mono">' + ed('about.eyebrow') + '</p>' +
+         '<h1>' + ed('about.title') + '</h1>' +
+         '<p class="deck">' + ed('about.deck') + '</p></div></div></div>';
+  out += '<div class="wrap sec last"><div class="spread">' + railHTML('about.rail', 'caserail') + '<div class="prose stack">';
+  for(var i=0;i<a.blocks.length;i++){
+    out += '<div><h3>' + ed('about.blocks.' + i + '.h') + '</h3>';
+    for(var j=0;j<a.blocks[i].paras.length;j++) out += ed('about.blocks.' + i + '.paras.' + j, 'p');
+    out += '</div>';
+  }
+  return out + '</div></div></div></section>';
+}
+
+function shellHTML(){
+  var out = '<div class="notice" id="notice"><div class="wrap notice-in">' +
+    '<p><b>Skeleton.</b> Every name, project, quote and number is placeholder content. Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd> to open dev mode and edit it.</p>' +
+    '<button type="button" id="noticeClose">Dismiss</button></div></div>';
+
+  out += '<header class="masthead"><div class="wrap masthead-in">' +
+    '<a class="wordmark" href="#/">' + ed('site.name') + ' <i>' + S.site.suffix + '</i></a>' +
+    '<nav class="top" aria-label="Primary">' +
+    '<a href="#/" data-nav="/">Work</a><a href="#/about" data-nav="/about">About</a>' +
+    '<a href="mailto:' + esc(S.site.email) + '">Email</a>' +
+    '<button class="tbtn" type="button" id="themeBtn" aria-label="Switch colour theme">Theme</button>' +
+    '</nav></div></header>';
+
+  out += '<main id="main">' + homeView();
+  for(var i=0;i<S.projects.length;i++) out += projectView(i);
+  out += aboutView() + '</main>';
+
+  out += '<footer class="foot"><div class="wrap foot-in">' +
+    '<p class="mono">' + S.site.name + ' · ' + S.site.footerRole + '</p>' +
+    '<p class="mono num">' + ed('site.copyright') + '</p>' +
+    '<span class="end"><a class="mono" href="mailto:' + esc(S.site.email) + '">' + S.site.email + '</a>' +
+    '<button class="devlink" type="button" id="devOpen">Dev</button></span>' +
+    '</div></footer>';
+  return out;
+}
+
+var shell = document.getElementById('shell');
+function render(){
+  shell.innerHTML = shellHTML();
+  bindShell();
+  route();
+  if(devOn) markEditable(true);
+}
+
+/* ---------- routing ---------- */
+function routeTitle(path){
+  if(path === '/') return S.title;
+  if(path === '/about') return 'About — ' + S.title;
+  for(var i=0;i<S.projects.length;i++){
+    if('/p/' + S.projects[i].id === path) return S.projects[i].title + ' — ' + S.title;
+  }
+  return S.title;
+}
+function validPath(path){
+  if(path === '/' || path === '/about') return true;
+  for(var i=0;i<S.projects.length;i++) if('/p/' + S.projects[i].id === path) return true;
+  return false;
+}
+function route(){
+  var path = (location.hash || '#/').replace(/^#/, '');
+  if(!validPath(path)) path = '/';
+  var views = shell.querySelectorAll('.view');
+  for(var i=0;i<views.length;i++) views[i].classList.toggle('on', views[i].getAttribute('data-view') === path);
+  var navs = shell.querySelectorAll('[data-nav]');
+  for(var j=0;j<navs.length;j++){
+    if(navs[j].getAttribute('data-nav') === path) navs[j].setAttribute('aria-current', 'page');
+    else navs[j].removeAttribute('aria-current');
+  }
+  document.title = routeTitle(path);
+}
+window.addEventListener('hashchange', function(){ route(); window.scrollTo(0, 0); });
+
+/* ---------- theme ---------- */
+var root = document.documentElement;
+try{
+  var savedTheme = localStorage.getItem('fnp.theme');
+  if(savedTheme === 'dark' || savedTheme === 'light') root.setAttribute('data-theme', savedTheme);
+}catch(e){}
+
+function bindShell(){
+  var tb = document.getElementById('themeBtn');
+  if(tb) tb.addEventListener('click', function(){
+    var cur = root.getAttribute('data-theme');
+    var isDark = cur === 'dark' ? true : cur === 'light' ? false : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var next = isDark ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try{ localStorage.setItem('fnp.theme', next); }catch(e){}
+  });
+
+  var notice = document.getElementById('notice');
+  try{ if(localStorage.getItem('fnp.notice') === 'off') notice.hidden = true; }catch(e){}
+  var nc = document.getElementById('noticeClose');
+  if(nc) nc.addEventListener('click', function(){
+    notice.hidden = true;
+    try{ localStorage.setItem('fnp.notice', 'off'); }catch(e){}
+  });
+
+  var dop = document.getElementById('devOpen');
+  if(dop) dop.addEventListener('click', function(){ toggleDev(true); });
+}
+
+/* ---------- sanitising edited HTML ---------- */
+var ALLOWED = {EM:1, STRONG:1, B:1, I:1, SPAN:1, A:1, BR:1};
+function clean(node){
+  var kids = Array.prototype.slice.call(node.childNodes);
+  kids.forEach(function(n){
+    if(n.nodeType === 3) return;
+    if(n.nodeType !== 1){ n.remove(); return; }
+    if(!ALLOWED[n.tagName]){
+      while(n.firstChild) n.parentNode.insertBefore(n.firstChild, n);
+      n.remove();
+      return;
+    }
+    Array.prototype.slice.call(n.attributes).forEach(function(a){
+      var keep = (n.tagName === 'A' && a.name === 'href') ||
+                 (a.name === 'class' && a.value === 'mark');
+      if(!keep) n.removeAttribute(a.name);
+    });
+    clean(n);
+  });
+  return node.innerHTML;
+}
+
+/* ---------- dev mode ---------- */
+var devOn = false, panel = null, statusEl = null, saveTimer = null;
+
+function markEditable(on){
+  var nodes = shell.querySelectorAll('[data-e]');
+  for(var i=0;i<nodes.length;i++){
+    if(on){
+      nodes[i].setAttribute('contenteditable', 'true');
+      nodes[i].setAttribute('spellcheck', 'true');
+    } else {
+      nodes[i].removeAttribute('contenteditable');
+    }
+  }
+}
+
+/* in dev mode a click on editable text must place a caret, not navigate */
+shell.addEventListener('click', function(e){
+  if(!devOn) return;
+  if(!e.target.closest) return;
+  var field = e.target.closest('[data-e]');
+  if(field && field.closest('a')) e.preventDefault();
+}, true);
+
+shell.addEventListener('input', function(e){
+  var el = e.target.closest ? e.target.closest('[data-e]') : null;
+  if(!devOn || !el) return;
+  set(el.getAttribute('data-e'), clean(el));
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){ saveDraft(); status('Draft saved locally', 'ok'); }, 450);
+});
+shell.addEventListener('blur', function(e){
+  var el = e.target.closest ? e.target.closest('[data-e]') : null;
+  if(!devOn || !el) return;
+  var path = el.getAttribute('data-e'), val = get(path);
+  var twins = shell.querySelectorAll('[data-e="' + path + '"]');
+  for(var i=0;i<twins.length;i++) if(twins[i] !== el) twins[i].innerHTML = val;
+  document.title = routeTitle((location.hash || '#/').replace(/^#/, ''));
+}, true);
+
+var GROUPS = [
+  {name: 'Typefaces', items: [
+    {k: 'fontDisplay', t: 'select', label: 'Display face', opts: 'display'},
+    {k: 'fontBody', t: 'select', label: 'Body face', opts: 'body'},
+    {k: 'fontMono', t: 'select', label: 'Label face', opts: 'mono'}
+  ]},
+  {name: 'Text', items: [
+    {k: 'base', t: 'range', label: 'Body size', min: 13, max: 22, step: 0.5, unit: 'px'},
+    {k: 'lh', t: 'range', label: 'Line height', min: 1.3, max: 2, step: 0.02, unit: ''},
+    {k: 'dscale', t: 'range', label: 'Headline scale', min: 0.7, max: 1.6, step: 0.02, unit: '×'},
+    {k: 'micro', t: 'range', label: 'Label size', min: 9, max: 16, step: 0.5, unit: 'px'},
+    {k: 'track', t: 'range', label: 'Label tracking', min: 0, max: 0.2, step: 0.005, unit: 'em'},
+    {k: 'measure', t: 'range', label: 'Line length', min: 40, max: 90, step: 1, unit: 'ch'}
+  ]},
+  {name: 'Item size', items: [
+    {k: 'maxw', t: 'range', label: 'Page width', min: 720, max: 1600, step: 10, unit: 'px'},
+    {k: 'rail', t: 'range', label: 'Margin rail', min: 100, max: 300, step: 2, unit: 'px'},
+    {k: 'statmin', t: 'range', label: 'Stat tile min', min: 110, max: 320, step: 5, unit: 'px'},
+    {k: 'radius', t: 'range', label: 'Corner radius', min: 0, max: 20, step: 1, unit: 'px'}
+  ]},
+  {name: 'Spacing', items: [
+    {k: 'secpad', t: 'range', label: 'Section padding', min: 20, max: 160, step: 2, unit: 'px'},
+    {k: 'gap', t: 'range', label: 'Column gap', min: 16, max: 130, step: 2, unit: 'px'},
+    {k: 'pad', t: 'range', label: 'Page margin', min: 12, max: 120, step: 2, unit: 'px'},
+    {k: 'rowpad', t: 'range', label: 'Row padding', min: 10, max: 80, step: 2, unit: 'px'},
+    {k: 'blockgap', t: 'range', label: 'Block gap', min: 12, max: 100, step: 2, unit: 'px'}
+  ]},
+  {name: 'Colour', items: [
+    {k: 'accent', t: 'color', label: 'Accent'}
+  ]}
+];
+
+function status(msg, kind){
+  if(!statusEl) return;
+  statusEl.textContent = msg;
+  statusEl.className = 'dev-status' + (kind ? ' ' + kind : '');
+}
+
+function buildPanel(){
+  panel = document.createElement('aside');
+  panel.id = 'dev';
+  panel.setAttribute('aria-label', 'Developer mode');
+
+  var html = '<header><h2>Dev mode</h2><button class="x" type="button" id="devClose" aria-label="Close dev mode">✕</button></header><div class="dev-body">';
+  html += '<p class="dev-tip">Click any dashed text on the page to rewrite it. Sliders below change the design tokens live. Everything is kept in this browser until you publish.</p>';
+
+  GROUPS.forEach(function(g){
+    html += '<div class="dev-group"><h3>' + g.name + '</h3>';
+    g.items.forEach(function(c){
+      var v = S.settings[c.k];
+      html += '<div class="ctl"><label for="c-' + c.k + '">' + c.label + '</label>';
+      if(c.t === 'range'){
+        html += '<output id="o-' + c.k + '">' + v + (c.unit || '') + '</output>';
+        html += '<input type="range" id="c-' + c.k + '" data-k="' + c.k + '" data-u="' + (c.unit || '') + '" min="' + c.min + '" max="' + c.max + '" step="' + c.step + '" value="' + v + '">';
+      } else if(c.t === 'select'){
+        html += '<span></span><select id="c-' + c.k + '" data-k="' + c.k + '">';
+        Object.keys(FONTS[c.opts]).forEach(function(f){
+          html += '<option value="' + esc(f) + '"' + (f === v ? ' selected' : '') + '>' + esc(f) + '</option>';
+        });
+        html += '</select>';
+      } else {
+        html += '<span></span><input type="color" id="c-' + c.k + '" data-k="' + c.k + '" value="' + esc(v) + '">';
+      }
+      html += '</div>';
+    });
+    html += '</div>';
+  });
+
+  html += '</div><div class="dev-foot"><div class="dev-status" id="devStatus"></div>' +
+    '<div class="dev-row"><button class="dev-btn primary" id="btnPublish" disabled>Publish</button>' +
+    '<button class="dev-btn" id="btnDownload" disabled>Download</button></div>' +
+    '<div class="dev-row"><button class="dev-btn" id="btnCopy">Copy HTML</button>' +
+    '<button class="dev-btn danger" id="btnReset">Reset all</button></div></div>';
+
+  panel.innerHTML = html;
+  document.body.appendChild(panel);
+  statusEl = document.getElementById('devStatus');
+
+  panel.addEventListener('input', function(e){
+    var k = e.target.getAttribute('data-k');
+    if(!k) return;
+    var val = e.target.type === 'range' ? parseFloat(e.target.value) : e.target.value;
+    S.settings[k] = val;
+    var out = document.getElementById('o-' + k);
+    if(out) out.textContent = val + (e.target.getAttribute('data-u') || '');
+    applySettings();
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function(){ saveDraft(); status('Draft saved locally', 'ok'); }, 300);
+  });
+
+  document.getElementById('devClose').addEventListener('click', function(){ toggleDev(false); });
+
+  document.getElementById('btnReset').addEventListener('click', function(){
+    if(!window.confirm('Discard every text and design change and return to the shipped version?')) return;
+    S = JSON.parse(JSON.stringify(DEFAULTS));
+    try{ localStorage.removeItem(DRAFT_KEY); }catch(e){}
+    applySettings();
+    render();
+    panel.remove(); panel = null; buildPanel();
+    status('Reset to shipped version', 'ok');
+  });
+
+  document.getElementById('btnCopy').addEventListener('click', function(){
+    var doc = buildDocument();
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(doc).then(function(){
+        status('Full HTML copied to clipboard', 'ok');
+      }, function(){ status('Clipboard blocked — use Download instead', 'bad'); });
+    } else {
+      status('Clipboard unavailable in this view', 'bad');
+    }
+  });
+
+  wireCapabilities();
+}
+
+function toggleDev(on){
+  devOn = on;
+  document.body.classList.toggle('dev', on);
+  document.body.classList.toggle('dev-open', on);
+  markEditable(on);
+  if(on){
+    if(!panel) buildPanel();
+    else panel.hidden = false;
+    try{ localStorage.setItem('fnp.dev', '1'); }catch(e){}
+  } else if(panel){
+    panel.hidden = true;
+  }
+}
+
+document.addEventListener('keydown', function(e){
+  if((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'D' || e.key === 'd')){
+    e.preventDefault();
+    toggleDev(!devOn);
+  }
+  if(e.key === 'Escape' && devOn) toggleDev(false);
+});
+
+/* ---------- build the replacement document ---------- */
+function buildDocument(){
+  var json = JSON.stringify(S, null, 1).replace(/</g, '\\u003c');
+  return '<!doctype html>\n<html lang="en">\n<head>\n' +
+    '<meta charset="utf-8">\n' +
+    '<meta name="viewport" content="width=device-width, initial-scale=1">\n' +
+    '<title>' + esc(S.title) + '</title>\n' +
+    '<link rel="preconnect" href="https://fonts.googleapis.com">\n' +
+    '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
+    '<link id="fontlink" rel="stylesheet" href="' + esc(fontHref(S.settings)) + '">\n' +
+    '<style id="sheet">' + CSS_SRC + '<\/style>\n' +
+    '</head>\n<body>\n' +
+    '<a class="skip" href="#main">Skip to content</a>\n' +
+    '<div id="shell"></div>\n' +
+    '<script id="state" type="application/json">' + json + '<\/script>\n' +
+    '<script id="src">' + APP_SRC + '<\/script>\n' +
+    '</body>\n</html>\n';
+}
+
+/* ---------- export ---------- */
+/* Off claude.ai there is no downloads capability, but an ordinary
+   blob download works fine — so the button always does something. */
+function blobDownload(){
+  try{
+    var url = URL.createObjectURL(new Blob([buildDocument()], {type: 'text/html'}));
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'index.html';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 5000);
+    status('Saved index.html', 'ok');
+  }catch(err){
+    status('Download blocked here — use Copy HTML', 'bad');
+  }
+}
+
+/* ---------- runtime capabilities ---------- */
+function wireCapabilities(){
+  var pub = document.getElementById('btnPublish');
+  var dl = document.getElementById('btnDownload');
+  var saveFile = blobDownload;
+
+  dl.disabled = false;
+  dl.addEventListener('click', function(){ saveFile(); });
+
+  if(!window.claude || typeof window.claude.use !== 'function'){
+    pub.textContent = 'Publish n/a';
+    pub.title = 'Publishing in place only works on claude.ai. Use Download or Copy HTML, then redeploy.';
+    return;
+  }
+
+  window.claude.use('downloads').then(function(downloads){
+    if(!downloads) return;
+    saveFile = function(){
+      status('Preparing file…');
+      downloads.save({filename: 'index.html', data: buildDocument()}).then(function(){
+        status('Saved to your downloads', 'ok');
+      }, function(err){
+        var code = err && err.code;
+        if(code === 'declined') status('Save cancelled');
+        else blobDownload();
+      });
+    };
+  }, function(){});
+
+  window.claude.use('artifact').then(function(artifact){
+    if(!artifact){ pub.textContent = 'Publish n/a'; return; }
+    pub.disabled = false;
+    pub.addEventListener('click', function(){
+      pub.disabled = true;
+      status('Publishing…');
+      artifact.publish(buildDocument()).then(function(){
+        try{ localStorage.removeItem(DRAFT_KEY); }catch(e){}
+        status('Published — reloading', 'ok');
+      }, function(err){
+        var code = err && err.code;
+        pub.disabled = false;
+        if(code === 'conflict') status('Someone else published; reloading to their version', 'bad');
+        else if(code === 'not_writer' || code === 'not_granted') status('You do not have write access to this artifact', 'bad');
+        else if(code === 'too_large') status('Page too large to publish', 'bad');
+        else if(code === 'rate_limited') status('Rate limited — wait a moment', 'bad');
+        else status('Publish failed: ' + (code || 'unknown'), 'bad');
+      });
+    });
+  }, function(){ pub.textContent = 'Publish n/a'; });
+}
+
+/* ---------- boot ---------- */
+applySettings();
+render();
+try{ if(localStorage.getItem('fnp.dev') === '1') toggleDev(true); }catch(e){}
+})();
+</script>
+
+</body>
+</html>
