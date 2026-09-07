@@ -166,8 +166,10 @@ nav.top a[aria-current="page"]::after{transform:scaleX(1)}
 
 /* ---------- hero: asymmetric split ---------- */
 .hero{padding-block:clamp(48px,7vw,88px) var(--secpad);border-bottom:1px solid var(--hairline)}
-.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:var(--gap);align-items:center}
-.hero h1{max-width:15ch}
+.hero-grid{display:grid;grid-template-columns:1.28fr .72fr;gap:var(--gap);align-items:center}
+/* headline is capped at 2 lines on desktop: the measure and the scale are
+   planned together, per the hero discipline rule */
+.hero h1{max-width:28ch;font-size:calc(var(--dscale) * clamp(32px,4vw,48px))}
 .hero .lead{max-width:46ch;margin-top:22px}
 .hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
 .hero-media{border-radius:var(--radius-box);overflow:hidden;background:var(--canvas-soft-2);aspect-ratio:5/6}
