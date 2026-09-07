@@ -26,10 +26,15 @@
   --canvas-soft-2:#f5f5f5;
   --ink:#171717;
   --body:#4d4d4d;
-  --mute:#888888;
+  /* the reference system's mute is #888888, which is 3.54:1 on white and
+     fails AA for the 12px labels it is used on. Darkened deliberately. */
+  --mute:#6b6b6b;
   --hairline:#ebebeb;
   --hairline-strong:#d4d4d4;
-  --accent:#0070f3;
+  /* dev mode writes --accent-base only. --accent is derived per theme, so a
+     custom accent still adapts instead of overriding the dark palette. */
+  --accent-base:#0070f3;
+  --accent:var(--accent-base);
   --accent-deep:#0761d1;
   --on-accent:#ffffff;
 
@@ -72,10 +77,10 @@
     --canvas-soft-2:#161616;
     --ink:#ededed;
     --body:#a1a1a1;
-    --mute:#777777;
+    --mute:#8a8a8a;
     --hairline:#242424;
     --hairline-strong:#383838;
-    --accent:#3291ff;
+    --accent:color-mix(in oklab, var(--accent-base) 62%, #dbe9ff);
     --accent-deep:#529dff;
     --on-accent:#0a0a0a;
     --sev-high:#ff6166;
@@ -89,10 +94,10 @@
   --canvas-soft-2:#161616;
   --ink:#ededed;
   --body:#a1a1a1;
-  --mute:#777777;
+  --mute:#8a8a8a;
   --hairline:#242424;
   --hairline-strong:#383838;
-  --accent:#3291ff;
+  --accent:color-mix(in oklab, var(--accent-base) 62%, #dbe9ff);
   --accent-deep:#529dff;
   --on-accent:#0a0a0a;
   --sev-high:#ff6166;
@@ -279,7 +284,8 @@ figcaption{font-size:calc(var(--base) * .82);color:var(--mute);line-height:1.6;m
 .foot-in .end{margin-left:auto;display:flex;gap:20px;align-items:center}
 .foot-in a{text-decoration:none;color:var(--mute);font-size:calc(var(--base) * .85)}
 .foot-in a:hover{color:var(--ink)}
-.devlink{background:none;border:0;padding:0;cursor:pointer;font-family:var(--font-mono);font-size:var(--micro);color:var(--mute)}
+/* min target 24x24 per WCAG 2.2 SC 2.5.8 */
+.devlink{background:none;border:0;padding:4px 6px;min-width:24px;min-height:24px;cursor:pointer;font-family:var(--font-mono);font-size:var(--micro);color:var(--mute)}
 .devlink:hover{color:var(--accent)}
 
 /* ---------- motion. MOTION_INTENSITY 4, transform and opacity only ---------- */
@@ -649,7 +655,7 @@ var VARS=[['base','--base','px'],['lh','--lh',''],['dscale','--dscale',''],['mic
   ['track','--track','em'],['measure','--measure','ch'],['maxw','--maxw','px'],['gap','--gap-set','px'],
   ['pad','--pad-set','px'],['secpad','--secpad-set','px'],['blockgap','--blockgap-set','px'],
   ['radiusCtl','--radius-ctl','px'],['radiusBox','--radius-box','px'],['tilemin','--tilemin','px'],
-  ['accent','--accent','']];
+  ['accent','--accent-base','']];
 function applySettings(){
   var st=S.settings, r=document.documentElement.style;
   VARS.forEach(function(v){ r.setProperty(v[1], st[v[0]]+v[2]); });
